@@ -2,10 +2,10 @@ start = [0,0]
 end   = [4,4]
 
 matrix = [
-    [1, 1, -1, 1, 1],
-    [10, 1, -1, 1, 1],
     [1, -1, -1, 1, 1],
-    [1, 10, -1, 1, 1],
+    [1, -1, 1, -1, 1],
+    [1, 1, -1, 1, -1],
+    [1, 1, -1, 1, 1],
     [1, 1, 1, 1, 1],
 ]
 
@@ -121,4 +121,8 @@ print("queue" + str(queue))
 print("closed" + str(closed))
 printStack()
 input()
+
+TODO :
+Ajouter une vérification quand le programme bloque
+et vérifier pourquoi lorsque j'ai des poids le chemin ne bifurque pas :()
 """
