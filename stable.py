@@ -2,7 +2,7 @@ start = [0,0]
 end   = [2,2]
 
 matrix = [
-    [1, 1, 1],
+    [0, 1, 1],
     [2, 123321, 65],
     [1, 42, 1]
 ]
@@ -40,6 +40,8 @@ while queue:
             if None == link[vertex[0]][vertex[1]]["weight"] or weight < link[vertex[0]][vertex[1]]["weight"]:
                 link[vertex[0]][vertex[1]]["weight"]  = weight
                 link[vertex[0]][vertex[1]]["current"] = cell
+
+
 
 for y in range(0, 3):
     print(y)
