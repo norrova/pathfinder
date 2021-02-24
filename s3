@@ -1,0 +1,58 @@
+const generateMatrix = (size) => Array.from(Array(size), () => new Array(size).fill(1));
+const getNeighbors = (node, maxLength) => {
+    return [
+        [node[0] - 1, node[1]],
+        [node[0], node[1] + 1],
+        [node[0] + 1, node[1]],
+        [node[0], node[1] - 1]
+    ].filter((node) => 
+        node[0] >= 0 && node[0] < maxLength 
+        && node[1] >= 0 && node[1] < maxLength
+    );
+};
+const contain = (array, find) => {
+    find = JSON.stringify(find);
+    return (JSON.stringify(array).indexOf(find) !== -1 ? true : false);
+};
+const isBlock = (weight) => weight < 0 ? true : false;
+const equals = (arr1, arr2) => JSON.stringify(arr1) === JSON.stringify(arr2);
+
+const getTraces = (node, matrix, trace, output = [null, []]) => {
+    if (null === output[0] || trace[0] < output[0]) {
+        if (equals(node, end)) {
+            output = trace;
+        } else {
+            let weight = undefined;
+            getNeighbors(node, matrix.length).forEach((node) => {
+                weight = matrix[node[0]][node[1]];
+                if (!isBlock(weight) && !contain(trace[1], node)) {
+                    weight+=trace[0];
+                    output = getTraces(node, matrix, [weight, [...trace[1], node]], output)
+                }
+            });
+        }
+    }
+    return output;
+}
+
+const printMatrix = (matrix, trace) => {
+    for (let y = 0; y < matrix.length; y++) {
+        for (let x = 0; x < matrix.length; x++) {
+            emoji = "🟩";
+            if (isBlock(matrix[y][x])) emoji = "❌"
+            else if (contain(trace, [y, x])) emoji = "🔵"
+            process.stdout.write(emoji);
+        }
+        console.log()
+    }
+}
+
+const matrix = generateMatrix(5);
+matrix[0][1] = -1;
+console.log(matrix);
+const start  = [0,0];
+const end    = [4,4];
+
+trace = getTraces(start, matrix, [0, [start]]);
+console.log(trace)
+printMatrix(matrix, trace);
