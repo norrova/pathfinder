@@ -78,7 +78,7 @@ def backtrace(start, end, history):
     except KeyError:
         return path[::-1]
 
-def discover(start, end, grid):
+def discover_cells(start, end, grid):
     queue = [start]
     visited = []
     history = {}
@@ -115,7 +115,7 @@ if __name__ == "__main__":
 
     grid = generate_grid(10, [start, end])
 
-    history = discover(start, end, grid)
+    history = discover_cells(start, end, grid)
 
     if ((end[0], end[1]) in history): 
         path = backtrace(start, end, history)
