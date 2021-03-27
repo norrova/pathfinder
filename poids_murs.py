@@ -8,10 +8,9 @@ def generate_grid(size, excluded):
         for x in range(0, size):
             node = [y, x]
             balance = randrange(0, 100)
-            weight = randrange(1, 5)
-            if (balance >= randrange(50, 100) 
-            and node not in excluded):
-                weight = 1
+            weight = randrange(1, 5) if node not in excluded else 0
+            if (balance >= randrange(50, 100) and node not in excluded):
+                weight = -1
             line.append(weight)
         grid.append(line)
     return grid
@@ -107,8 +106,8 @@ def discover_cells(start, end, grid):
         show_map_tmp(start, end, grid, queue, visited)
         for node in get_neighbors(parent, size):
             if not is_block(grid[node[0]][node[1]]):
-                remove_old_cell = False
-                update = True
+                update_cell = False
+                add_cell_to_history = True
                 weight = grid[node[0]][node[1]]
                 trace_current = None
                 trace_weight  = None
@@ -119,14 +118,12 @@ def discover_cells(start, end, grid):
                         and getCurrentNode(node, history) != (parent[0],parent[1])):
                             trace_current = (parent[0], parent[1])
                             trace_weight  = weight
-                            update = True
-                            remove_old_cell = True
+                            update_cell = True
                         else:
-                            update = False
+                            add_cell_to_history = False
                     else:
                         trace_current = (parent[0], parent[1])
                         trace_weight  = weight
-                        update = True
                 else:
                     trace_current = (parent[0], parent[1])
                     trace_weight  = weight
@@ -138,26 +135,27 @@ def discover_cells(start, end, grid):
                     }
                 }
 
-                if remove_old_cell:
+                if update_cell:
                     history.update(trace)
 
                 if node == end:
-                    if update == True:
+                    if True == add_cell_to_history:
                         history.update(trace)
                     canAddToQueue = False
                     break
                 elif (node not in queue and node not in visited):
-                    if update == True:
+                    if True == add_cell_to_history:
                         history.update(trace)
                     if canAddToQueue:
                         queue.append(node)
     return history
 
 if __name__ == "__main__":
-    start = [0, 0]
-    end = [3, 3]
+    start = [3, 4]
+    end = [19, 19]
 
-    grid = generate_grid(4, [start, end])
+    grid = generate_grid(20, [start, end])
+    # [[0, 2, 1, 2, 2], [3, 2, 1, 3, 1], [4, 1, 1, 1, -1], [2, 3, 1, 1, 4], [1, 1, 1, 3, 0]]
 
     history = discover_cells(start, end, grid)
 
