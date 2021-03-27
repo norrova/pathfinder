@@ -8,9 +8,13 @@ def generate_grid(size, excluded):
         for x in range(0, size):
             node = [y, x]
             balance = randrange(0, 100)
-            weight = randrange(1, 5) if node not in excluded else 0
-            if (balance >= randrange(50, 100) and node not in excluded):
-                weight = -1
+            if node not in excluded:
+                if balance >= randrange(60, 100):
+                    weight = -1
+                else:
+                    weight = randrange(1, 5)
+            else:
+                weight = 0
             line.append(weight)
         grid.append(line)
     return grid
@@ -99,7 +103,7 @@ def discover_cells(start, end, grid):
     visited = []
     history = {}
     size = len(grid)
-    canAddToQueue = True
+    add_cell_to_queue = True
     while(len(queue) > 0):
         parent = queue.pop(0)
         visited.append(parent)
@@ -141,20 +145,20 @@ def discover_cells(start, end, grid):
                 if node == end:
                     if True == add_cell_to_history:
                         history.update(trace)
-                    canAddToQueue = False
+                    add_cell_to_queue = False
                     break
                 elif (node not in queue and node not in visited):
                     if True == add_cell_to_history:
                         history.update(trace)
-                    if canAddToQueue:
+                    if add_cell_to_queue:
                         queue.append(node)
     return history
 
 if __name__ == "__main__":
-    start = [3, 4]
-    end = [19, 19]
+    start = [2, 2]
+    end = [9, 9]
 
-    grid = generate_grid(20, [start, end])
+    grid = generate_grid(10, [start, end])
 
     history = discover_cells(start, end, grid)
 
