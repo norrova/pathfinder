@@ -155,7 +155,6 @@ if __name__ == "__main__":
     end = [19, 19]
 
     grid = generate_grid(20, [start, end])
-    # [[0, 2, 1, 2, 2], [3, 2, 1, 3, 1], [4, 1, 1, 1, -1], [2, 3, 1, 1, 4], [1, 1, 1, 3, 0]]
 
     history = discover_cells(start, end, grid)
 
