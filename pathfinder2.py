@@ -155,10 +155,10 @@ def discover_cells(start, end, grid):
     return history
 
 if __name__ == "__main__":
-    start = [2, 2]
-    end = [9, 9]
+    start = [0, 0]
+    end = [4, 4]
 
-    grid = generate_grid(10, [start, end])
+    grid = generate_grid(5, [start, end])
 
     history = discover_cells(start, end, grid)
 
